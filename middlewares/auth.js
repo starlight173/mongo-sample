@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 
-const config = process.env;
+const { JWT_SECRET_KEY } = process.env;
 
 const verifyToken = (req, res, next) => {
     //  const token = req.header('Authorization').replace('Bearer ', '')
@@ -15,7 +15,7 @@ const verifyToken = (req, res, next) => {
         });
     }
     try {
-        const decoded = jwt.verify(token, config.JWT_SECRET_KEY);
+        const decoded = jwt.verify(token, JWT_SECRET_KEY);
         req.user = decoded;
     } catch (err) {
         res.status(401).json({

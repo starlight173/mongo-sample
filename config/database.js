@@ -1,12 +1,11 @@
 const mongoose = require('mongoose');
-//mongoose.connect('mongodb://localhost/my_database', { useNewUrlParser: true })
 
-const { MONGO_URI } = process.env;
+const uri = process.env.MONGO_URI;
 
 exports.connect = () => {
     // Connecting to the database
     mongoose
-        .connect(MONGO_URI, {
+        .connect(uri, {
             useUnifiedTopology: true,
             useNewUrlParser: true,
             autoCreate: true,

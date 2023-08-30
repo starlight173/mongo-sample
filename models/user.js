@@ -1,9 +1,10 @@
-const config = process.env;
 const bcrypt = require('bcrypt')
 const jwt = require("jsonwebtoken");
 const validator = require('validator')
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+
+const { JWT_SECRET_KEY } = process.env;
 
 const UserSchema = new Schema({
     first_name: {
@@ -56,7 +57,7 @@ UserSchema.methods.generateAuthToken = async function () {
     const user = this
     const token = jwt.sign(
         { user_id: user._id, email: user.email },
-        config.JWT_SECRET_KEY,
+        JWT_SECRET_KEY,
         {
             expiresIn: "2h",
         }

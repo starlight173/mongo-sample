@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload')
 const auth = require('./middlewares/auth');
 const routes = require('./routes');
+const port = process.env.NODE_LOCAL_PORT || 3000;
 
 // app
 const app = express();
@@ -72,5 +73,9 @@ app.get('/', function (req, res) {
 //         res.status(500).send(error);
 //     }
 // });
+
+app.listen(port, () => {
+    console.log("Server is running at on port %s", port)
+})
 
 module.exports = app;
