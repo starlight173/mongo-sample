@@ -1,22 +1,23 @@
+const express = require('express');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const fileUpload = require('express-fileupload');
+
 require('dotenv').config();
 require('./config/database').connect();
-
-const express = require('express');
-const bodyParser = require('body-parser');
-const fileUpload = require('express-fileupload')
 const auth = require('./middlewares/auth');
 const routes = require('./routes');
-const port = process.env.NODE_LOCAL_PORT || 3000;
 
 // app
 const app = express();
+const port = process.env.NODE_LOCAL_PORT || 3000;
 
+app.use(cors());
+app.use(express.json());
 app.use(express.static('public')); // http://localhost:8081/images/img1.jpeg
 app.use(fileUpload());
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
 app.use('/api', routes);
 
 // const BlogPost = require('./models/blogpost');
