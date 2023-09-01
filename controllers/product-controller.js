@@ -1,4 +1,4 @@
-const ProductService = require('../services/product_service')
+const ProductService = require('../services/product-service')
 
 module.exports.createProduct = async (req, res) => {
     try {

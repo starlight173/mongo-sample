@@ -13,8 +13,14 @@ const app = express();
 const port = process.env.NODE_LOCAL_PORT || 3000;
 
 app.use(cors());
+// parse requests of content-type - application/json
 app.use(express.json());
-app.use(express.static('public')); // http://localhost:8081/images/img1.jpeg
+
+// parse requests of content-type - application/x-www-form-urlencoded
+app.use(express.urlencoded({ extended: true }));
+
+// http://localhost:8081/images/img1.jpeg
+app.use(express.static('public')); 
 app.use(fileUpload());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -22,14 +28,14 @@ app.use('/api', routes);
 
 // const BlogPost = require('./models/blogpost');
 
+app.get('/', function (req, res) {
+    res.send('Hello World 🙌');
+})
+
 // Test validate for `welcome` path
 app.post("/welcome", auth, (req, res) => {
     res.status(200).send("Welcome 🙌 ");
 });
-
-app.get('/', function (req, res) {
-    res.send('Hello World');
-})
 
 // app.get('/posts', function (req, res) {
 //     BlogPost.find().then(result => {

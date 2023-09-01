@@ -1,5 +1,5 @@
 const HttpStatusEnum = require('../utils/http_status')
-const UserService = require('../services/user_service')
+const UserService = require('../services/user-service')
 
 module.exports.createUser = async (req, res) => {
     try {

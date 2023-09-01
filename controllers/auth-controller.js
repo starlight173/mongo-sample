@@ -1,6 +1,10 @@
 const bcrypt = require('bcrypt')
 const HttpStatusEnum = require('../utils/http_status')
-const UserService = require('../services/user_service')
+const UserService = require('../services/user-service')
+
+module.exports.signup = async (req, res) => {
+
+}
 
 module.exports.login = async (req, res) => {
     // Get user input
@@ -48,3 +52,6 @@ module.exports.login = async (req, res) => {
     }
 }
 
+module.exports.logout = async (req, res) => {
+
+}

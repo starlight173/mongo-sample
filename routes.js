@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const authController = require('./controllers/auth_controller');
-const userController = require('./controllers/user_controller');
-const productController = require('./controllers/product_controller');
+const authController = require('./controllers/auth-controller');
+const userController = require('./controllers/user-controller');
+const productController = require('./controllers/product-controller');
 
 // Auth
 // Định nghĩa các route và kết nối với phương thức xử lý tương ứng trong controller
