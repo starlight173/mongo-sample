@@ -21,7 +21,9 @@ const generateTokens = async (user) => {
         JWT_REFRESH_TOKEN_KEY,
         { expiresIn: "30d" }
     );
-    await UserTokenService.createUserToken({ userId: user._id, token: token });
+    
+    await UserTokenService.createUserToken({ userId: user._id, token: refreshToken });
+
     return { token, refreshToken };
 };
 

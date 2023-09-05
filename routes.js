@@ -4,6 +4,7 @@ const verifyToken = require('./middlewares/auth');
 const router = express.Router();
 const authController = require('./controllers/auth-controller');
 const userController = require('./controllers/user-controller');
+const tokenController = require('./controllers/token-controller');
 const productController = require('./controllers/product-controller');
 
 // Auth
@@ -13,10 +14,7 @@ router.post('/auth/login', authController.login);
 router.post('/auth/logout', authController.logout);
 
 // refresh token
-router.post('/token/refresh', authController.logout);
-
-// Forgot password token
-// router.post('/password/forgot', authController.logout);
+router.post('/refreshToken', tokenController.refreshToken);
 
 // User
 router.get('/users/me', verifyToken, userController.me);

@@ -99,13 +99,12 @@ module.exports.login = async (req, res) => {
 
 module.exports.logout = async (req, res) => {
     try {
-        const token = req.header('Authorization')?.replace('Bearer ', '');
+        const { refresh_token: refreshToken } = req.body;
 
-        if (!token) {
-            res.status(400).json({ status: 400, message: "Invalid Credentials" });
-        }
+        if (!refreshToken)
+            return res.status(400).json({ status: 400, message: "Invalid Credentials" });
 
-        const userToken = await UserTokenService.getUserToken({ token });
+        const userToken = await UserTokenService.getUserToken({ refreshToken });
 
         if (!userToken)
             return res
