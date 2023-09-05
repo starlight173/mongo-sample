@@ -12,6 +12,12 @@ router.post('/auth/signup', authController.signup);
 router.post('/auth/login', authController.login);
 router.post('/auth/logout', authController.logout);
 
+// refresh token
+router.post('/token/refresh', authController.logout);
+
+// Forgot password token
+// router.post('/password/forgot', authController.logout);
+
 // User
 router.get('/users/me', verifyToken, userController.me);
 
@@ -23,11 +29,3 @@ router.put('/products/:productID', productController.updateProduct);
 router.delete('/products/:productID', productController.deleteProduct);
 
 module.exports = router;
-
-const {
-    DB_USER,
-    DB_PASSWORD,
-    DB_HOST,
-    DB_PORT,
-    DB_NAME,
-} = process.env;
