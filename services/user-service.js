@@ -1,11 +1,9 @@
 const User = require('../models/user-model');
 
-exports.getUser = async function (email) {
-    return await User.findOne(email);
+exports.getUser = async (o) => {
+    return await User.findOne(o);
 }
 
-exports.createUser = async function (user) {
+exports.createUser = async user => {
     return await User.create(user);
 }
-
-

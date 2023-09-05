@@ -1,22 +1,22 @@
 const jwt = require("jsonwebtoken");
+const HttpStatusEnum = require('../utils/http-status')
+const UserService = require('../services/user-service')
 
-const { JWT_SECRET_KEY } = process.env;
+const { JWT_ACCESS_TOKEN_KEY } = process.env;
 
-const verifyToken = (req, res, next) => {
-    //  const token = req.header('Authorization').replace('Bearer ', '')
-    const token =
-        req.body.token || req.query.token || req.headers["x-access-token"];
+const verifyToken = async (req, res, next) => {
+    const token = req.header('Authorization').replace('Bearer ', '')
 
     if (!token) {
-        return res.status(403).json({
-            status: 403,
-            error: HttpStatusEnum.get(403).name,
-            message: 'A token is required for authentication!',
+        return res.status(403).send({
+            message: "No token provided!",
         });
     }
+
     try {
-        const decoded = jwt.verify(token, JWT_SECRET_KEY);
-        req.user = decoded;
+        const decoded = jwt.verify(token, JWT_ACCESS_TOKEN_KEY);
+        req.userId = decoded.id
+        next();
     } catch (err) {
         res.status(401).json({
             status: err.status,
@@ -24,7 +24,6 @@ const verifyToken = (req, res, next) => {
             message: 'Unauthorized!',
         });
     }
-    return next();
 };
 
 module.exports = verifyToken;

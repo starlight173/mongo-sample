@@ -32,11 +32,6 @@ app.get('/', function (req, res) {
     res.send('Hello World 🙌');
 })
 
-// Test validate for `welcome` path
-app.post("/welcome", auth, (req, res) => {
-    res.status(200).send("Welcome 🙌 ");
-});
-
 // app.get('/posts', function (req, res) {
 //     BlogPost.find().then(result => {
 //         console.log(result);
