@@ -20,10 +20,10 @@ router.post('/refreshToken', tokenController.refreshToken);
 router.get('/users/me', verifyToken, userController.me);
 
 // Product
-router.post('/products', productController.createProduct); // api/products
-router.get('/products', productController.getProducts); //api/products
-router.get('/products/:productID', productController.getProduct);
-router.put('/products/:productID', productController.updateProduct);
-router.delete('/products/:productID', productController.deleteProduct);
+router.post('/product', productController.createProduct); // api/product
+router.get('/products', productController.getProducts); // api/products
+router.get('/products/:id', productController.getProduct); // api/products/123
+router.patch('/products/:id', productController.updateProduct); // api/products/123
+router.delete('/products/:id', productController.deleteProduct); // api/products/123
 
 module.exports = router;
