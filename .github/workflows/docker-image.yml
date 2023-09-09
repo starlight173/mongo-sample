@@ -18,6 +18,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+
+      - name: "Create env file"
+        run: |
+          echo "${{ secrets.ENV_FILE }}" > .env
+
       - name: Build the Docker image
         run: docker-compose build --no-cache --force-rm
 
@@ -25,6 +30,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: "Create env file"
+        run: |
+          echo "${{ secrets.ENV_FILE }}" > .env
       - name: Test the Docker image
         run: docker-compose up -d
 
@@ -34,6 +42,10 @@ jobs:
     steps:
       - name: Check out the repo
         uses: actions/checkout@v3
+
+      - name: "Create env file"
+        run: |
+          echo "${{ secrets.ENV_FILE }}" > .env
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
