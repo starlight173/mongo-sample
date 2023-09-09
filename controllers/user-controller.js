@@ -18,10 +18,12 @@ module.exports.me = async (req, res) => {
             email: user.email,
         });
     } catch (err) {
+        const errStatus = err.status || 500;
+        const errMessage = err.message || "Internal Server Error";
         res.status(err.status).json({
-            status: err.status,
+            status: errStatus,
             error: HttpStatusEnum.get(err.status).name,
-            message: err.message,
+            message: errMessage,
         });
     }
 }
