@@ -1,54 +1,35 @@
 const express = require('express');
 const cors = require('cors');
-const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
+const bodyParser = require('body-parser');
+const swaggerJsdoc = require("swagger-jsdoc");
+const swaggerUi = require("swagger-ui-express");
+const swaggerOption = require('./swagger');
 
 require('dotenv').config();
 require('./config/database').connect();
-const auth = require('./middlewares/auth');
-const routes = require('./routes');
+const productsRouter = require('./routes/products');
 
 // app
 const app = express();
 const port = process.env.NODE_LOCAL_PORT || 3000;
 
 app.use(cors());
-// parse requests of content-type - application/json
-app.use(express.json());
+app.use(express.json()); // parse requests of content-type - application/json
 
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
 
 // http://localhost:8081/images/img1.jpeg
-app.use(express.static('public')); 
+app.use(express.static('public'));
 app.use(fileUpload());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use('/api', routes);
-
-// const BlogPost = require('./models/blogpost');
+app.use('/api/products', productsRouter);
 
 app.get('/', function (req, res) {
     res.send('Hello World 🙌');
 })
-
-// app.get('/posts', function (req, res) {
-//     BlogPost.find().then(result => {
-//         console.log(result);
-//         res.end(JSON.stringify(result));
-//     }).catch(error => {
-//         console.log(error);
-//     });
-// })
-
-// app.get('/posts/:id', function (req, res) {
-//     BlogPost.find({ _id: req.params.id }).then(result => {
-//         console.log(result);
-//         res.end(JSON.stringify(result));
-//     }).catch(error => {
-//         console.log(error);
-//     });
-// })
 
 // app.post('/posts/add', async function (req, res) {
 //     if (!req.files || Object.keys(req.files).length === 0) {
@@ -75,6 +56,14 @@ app.get('/', function (req, res) {
 //         res.status(500).send(error);
 //     }
 // });
+
+// Swagger
+const specs = swaggerJsdoc(swaggerOption);
+app.use(
+    "/docs",
+    swaggerUi.serve,
+    swaggerUi.setup(specs, { explorer: true })
+);
 
 app.listen(port, () => {
     console.log("Server is running at on port %s", port)
