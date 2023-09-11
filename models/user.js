@@ -31,7 +31,11 @@ const UserSchema = new Schema({
     },
     created_at: {
         type: Date,
-        default: new Date(),
+        default: Date.now
+    },
+    updated_at: {
+        type: Date,
+        default: Date.now
     },
 });
 
