@@ -9,6 +9,7 @@ const swaggerOption = require('./swagger');
 require('dotenv').config();
 require('./config/database').connect();
 const productsRouter = require('./routes/products');
+const usersRouter = require('./routes/users');
 
 // app
 const app = express();
@@ -25,6 +26,8 @@ app.use(express.static('public'));
 app.use(fileUpload());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use('/api/users', usersRouter);
 app.use('/api/products', productsRouter);
 
 app.get('/', function (req, res) {

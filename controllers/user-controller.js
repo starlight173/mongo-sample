@@ -11,11 +11,15 @@ module.exports.me = async (req, res) => {
         }
 
         res.json({
-            id: user._id,
-            first_name: user.first_name,
-            last_name: user.last_name,
-            email: user.email,
-        });
+            "status": "success",
+            "data": {
+                id: user._id,
+                first_name: user.first_name,
+                last_name: user.last_name,
+                email: user.email,
+            }
+        })
+
     } catch (err) {
         const errStatus = err.status || 500;
         const errMessage = err.message || "Internal Server Error";

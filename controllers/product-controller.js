@@ -4,7 +4,13 @@ module.exports.createProduct = async (req, res) => {
     try {
         console.log(req.body);
         const result = await ProductService.createProduct(req.body);
-        res.json({ "id": result._id })
+        res.json({
+            "status": "success",
+            "message": "Item created successfully",
+            "data": {
+                "id": result._id
+            }
+        })
     } catch (err) {
         const errStatus = err.status || 500;
         const errMessage = err.message || "Internal Server Error";
@@ -18,7 +24,10 @@ module.exports.createProduct = async (req, res) => {
 module.exports.getProducts = async (req, res) => {
     try {
         const result = await ProductService.getProducts();
-        res.json(result)
+        res.json({
+            "status": "success",
+            "data": result
+        })
     } catch (err) {
         const errStatus = err.status || 500;
         const errMessage = err.message || "Internal Server Error";
@@ -40,7 +49,10 @@ module.exports.getProduct = async (req, res) => {
             throw err;
         }
 
-        res.json(result)
+        res.json({
+            "status": "success",
+            "data": result
+        })
     } catch (err) {
         const errStatus = err.status || 500;
         const errMessage = err.message || "Internal Server Error";
@@ -56,7 +68,11 @@ module.exports.updateProduct = async (req, res) => {
         const id = req.params.id;
         const updatedData = req.body;
         const result = await ProductService.updateProduct(id, updatedData);
-        res.json(result)
+        res.json({
+            "status": "success",
+            "message": "Item updated successfully",
+            "data": result
+        })
     } catch (err) {
         const errStatus = err.status || 500;
         const errMessage = err.message || "Internal Server Error";
@@ -77,7 +93,10 @@ module.exports.deleteProduct = async (req, res) => {
             throw err;
         }
 
-        res.json({ message: `Item ${result.id} has been deleted` })
+        res.json({
+            "status": "success",
+            "message": `Item ${result.id} has been deleted`,
+        })
     } catch (err) {
         const errStatus = err.status || 500;
         const errMessage = err.message || "Internal Server Error";
