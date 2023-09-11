@@ -1,4 +1,3 @@
-const HttpStatusEnum = require('../utils/http-status')
 const UserService = require('../services/user-service')
 
 module.exports.me = async (req, res) => {
@@ -20,9 +19,8 @@ module.exports.me = async (req, res) => {
     } catch (err) {
         const errStatus = err.status || 500;
         const errMessage = err.message || "Internal Server Error";
-        res.status(err.status).json({
-            status: errStatus,
-            error: HttpStatusEnum.get(err.status).name,
+        res.status(errStatus).json({
+            status: `error`,
             message: errMessage,
         });
     }

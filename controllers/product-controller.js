@@ -8,9 +8,8 @@ module.exports.createProduct = async (req, res) => {
     } catch (err) {
         const errStatus = err.status || 500;
         const errMessage = err.message || "Internal Server Error";
-        res.status(err.status).json({
-            status: errStatus,
-            error: HttpStatusEnum.get(err.status).name,
+        res.status(errStatus).json({
+            status: `error`,
             message: errMessage,
         });
     }
@@ -23,9 +22,8 @@ module.exports.getProducts = async (req, res) => {
     } catch (err) {
         const errStatus = err.status || 500;
         const errMessage = err.message || "Internal Server Error";
-        res.status(err.status).json({
-            status: errStatus,
-            error: HttpStatusEnum.get(err.status).name,
+        res.status(errStatus).json({
+            status: `error`,
             message: errMessage,
         });
     }
@@ -34,13 +32,20 @@ module.exports.getProducts = async (req, res) => {
 module.exports.getProduct = async (req, res) => {
     try {
         const result = await ProductService.getProduct(req.params.id);
+
+        if (!result) {
+            // No results.
+            const err = new Error('Product not found');
+            err.status = 404;
+            throw err;
+        }
+
         res.json(result)
     } catch (err) {
         const errStatus = err.status || 500;
         const errMessage = err.message || "Internal Server Error";
-        res.status(err.status).json({
-            status: errStatus,
-            error: HttpStatusEnum.get(err.status).name,
+        res.status(errStatus).json({
+            status: `error`,
             message: errMessage,
         });
     }
@@ -55,9 +60,8 @@ module.exports.updateProduct = async (req, res) => {
     } catch (err) {
         const errStatus = err.status || 500;
         const errMessage = err.message || "Internal Server Error";
-        res.status(err.status).json({
-            status: errStatus,
-            error: HttpStatusEnum.get(err.status).name,
+        res.status(errStatus).json({
+            status: `error`,
             message: errMessage,
         });
     }
@@ -77,9 +81,8 @@ module.exports.deleteProduct = async (req, res) => {
     } catch (err) {
         const errStatus = err.status || 500;
         const errMessage = err.message || "Internal Server Error";
-        res.status(err.status).json({
-            status: errStatus,
-            error: HttpStatusEnum.get(err.status).name,
+        res.status(errStatus).json({
+            status: `error`,
             message: errMessage,
         });
     }
