@@ -3,8 +3,7 @@ name: Build and Push Docker Image to Docker Hub
 on:
   push:
     branches: ["main", "dev"]
-  pull_request:
-    branches: ["main", "dev"]
+  workflow_dispatch:
 
 env:
   # Use docker.io for Docker Hub if empty
@@ -13,16 +12,6 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: "Create env file"
-        run: |
-          echo "${{ secrets.ENV_FILE }}" > .env
-      - name: Test the Docker image
-        run: docker-compose up -d
-
   build_and_push_to_registry:
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
@@ -34,8 +23,17 @@ jobs:
         run: |
           echo "${{ secrets.ENV_FILE }}" > .env
 
+      - name: UnitTest ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run build --if-present
+      - run: npm test
+
       - name: Build the Docker image
-        run: docker compose -f docker-compose.prod.yml build
+        run: docker compose -f docker-compose.yml build
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
@@ -52,12 +50,12 @@ jobs:
           context: ./
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/mongo-sample:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest
 
       - name: Run the image in a container
         uses: addnab/docker-run-action@v3
         with:
-          image: ${{ secrets.DOCKERHUB_USERNAME }}/mongo-sample:latest
+          image: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest
           run: |
             echo "runing the docker image"
             echo "Testing the nodejs  app endpoints"
