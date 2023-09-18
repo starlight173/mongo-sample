@@ -1,4 +1,4 @@
-name: Build and Push Docker Image to Docker Hub
+name: Deploy
 
 on:
   push:
@@ -50,13 +50,13 @@ jobs:
           context: ./
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/mongo-sample:latest
 
       - name: Run the image in a container
         uses: addnab/docker-run-action@v3
         with:
-          image: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest
+          image: ${{ secrets.DOCKERHUB_USERNAME }}/mongo-sample:latest
           run: |
             echo "runing the docker image"
-            echo "Testing the nodejs  app endpoints"
+            echo "Testing the nodejs app endpoints"
             echo ${{ steps.docker_build.outputs.digest }}
