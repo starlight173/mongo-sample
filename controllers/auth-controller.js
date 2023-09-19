@@ -1,5 +1,4 @@
 const bcrypt = require('bcrypt')
-const HttpStatusEnum = require('../utils/http-status')
 const UserService = require('../services/user-service')
 const UserTokenService = require('../services/token-service')
 const generateTokens = require('../utils/generate-tokens');
@@ -37,15 +36,12 @@ module.exports.signup = async (req, res) => {
         });
 
         // return new user
-        res.status(201).json({
-            message: "Account created sucessfully"
-        });
+        res.status(201);
     } catch (err) {
         //console.log(err);
         res.status(err.status).json({
-            status: err.status,
-            error: HttpStatusEnum.get(err.status).name,
-            message: err.message,
+            status: `error`,
+            message: errMessage,
         });
     }
 };
@@ -60,7 +56,6 @@ module.exports.login = async (req, res) => {
 
         // Validate user input
         if (!(email && password)) {
-            //return res.status(400).json({ status: 400, message: "All input is required" });
             const err = new Error('All input is required')
             err.status = 400;
             throw err;
@@ -86,14 +81,16 @@ module.exports.login = async (req, res) => {
                 "refresh_token": refreshToken,
             });
         }
-        res.status(400).json({ status: 400, message: "Invalid Credentials" });
+
+        res.status(400)
+            .json({ status: `error`, message: "Invalid Credentials" });
     } catch (err) {
         console.log(err);
-        res.status(err.status).json({
-            status: err.status,
-            error: HttpStatusEnum.get(err.status).name,
-            message: err.message,
-        });
+        res.status(err.status)
+            .json({
+                status: `error`,
+                message: err.message,
+            });
     }
 }
 
@@ -102,7 +99,8 @@ module.exports.logout = async (req, res) => {
         const { refresh_token: refreshToken } = req.body;
 
         if (!refreshToken)
-            return res.status(400).json({ status: 400, message: "Invalid Credentials" });
+            return res.status(400)
+                .json({ status: `error`, message: "Invalid Credentials" });
 
         const userToken = await UserTokenService.getUserToken({ refreshToken });
 

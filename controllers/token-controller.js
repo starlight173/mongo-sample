@@ -9,7 +9,8 @@ module.exports.refreshToken = async (req, res) => {
     const { refresh_token: refreshToken } = req.body;
 
     if (!refreshToken)
-        return res.status(400).json({ status: 400, message: "Invalid Credentials" });
+        return res.status(400)
+            .json({ status: `error`, message: "Invalid Credentials" });
 
     try {
         const { tokenDetails } = await verifyRefreshToken(refreshToken);

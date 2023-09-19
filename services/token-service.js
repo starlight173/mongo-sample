@@ -1,4 +1,4 @@
-const UserToken = require('../models/user-token-model');
+const UserToken = require('../models/user-token');
 
 exports.getUserToken = async (o) => {
     return await UserToken.findOne(o);

@@ -6,12 +6,13 @@ const ProductSchema = new Schema({
     price: Number,
     createdAt: { /* can declare property type with an object like this because we need 'default' */
         type: Date,
-        default: new Date()
+        default: Date.now
     },
     updatedAt: { /* can declare property type with an object like this because we need 'default' */
         type: Date,
-        default: new Date()
+        default: Date.now
     }
 });
+
 const Product = mongoose.model('Product', ProductSchema);
 module.exports = Product;
