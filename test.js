@@ -2,7 +2,10 @@ const mongoose = require('mongoose');
 const BlogPost = require('./models/blogpost');
 const { ObjectId } = require('bson');
 
+
 mongoose.connect('mongodb://localhost/test_my_database', { useNewUrlParser: true });
+
+// Test 1
 
 // BlogPost.create({
 //     title: 'MƯA THÁNG SÁU',
