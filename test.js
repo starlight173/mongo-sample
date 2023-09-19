@@ -6,6 +6,7 @@ const { ObjectId } = require('bson');
 mongoose.connect('mongodb://localhost/test_my_database', { useNewUrlParser: true });
 
 // Test 1
+// Test 2
 
 // BlogPost.create({
 //     title: 'MƯA THÁNG SÁU',
