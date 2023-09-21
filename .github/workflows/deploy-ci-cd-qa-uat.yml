@@ -3,7 +3,13 @@ name: Deploy QA/UAT
 
 on:
   push:
-    branches: ["dev"]
+    branches:
+      - dev
+  pull_request:
+    types:
+      - closed
+    branches:
+      - dev
 
 env:
   # Use docker.io for Docker Hub if empty
@@ -16,7 +22,7 @@ jobs:
   deploy-qa:
     name: Push Docker Image QA To Docker Hub
     runs-on: ubuntu-latest
-    environment: 
+    environment:
       name: QA
       url: https://github.com
     steps:
@@ -68,7 +74,7 @@ jobs:
   deploy-uat:
     name: Push Docker Image UAT To Docker Hub
     runs-on: ubuntu-latest
-    environment: 
+    environment:
       name: UAT
       url: https://github.com
     steps:
