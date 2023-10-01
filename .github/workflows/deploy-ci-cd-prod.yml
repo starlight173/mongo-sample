@@ -26,12 +26,11 @@ jobs:
 
       - name: "Create env file"
         run: |
-          echo "${{ secrets.ENV_FILE }}" > .env
-          echo "${{ variables.NODE_LOCAL_PORT }}" >> .env
-          echo "${{ variables.MONGODB_HOST }}" >> .env
-          echo "${{ variables.MONGODB_PORT }}" >> .env
-          echo "${{ variables.MONGODB_DATABASE }}" >> .env
-
+          echo "${secrets.ENV_FILE }" > .env
+          echo NODE_LOCAL_PORT=${NODE_LOCAL_PORT} >> .env
+          echo MONGODB_HOST=${MONGODB_HOST} >> .env
+          echo MONGODB_PORT=${MONGODB_PORT} >> .env
+          echo MONGODB_DATABASE=${MONGODB_DATABASE} >> .env
       - name: Build the Docker image
         run: docker compose -f docker-compose.yml build
 
